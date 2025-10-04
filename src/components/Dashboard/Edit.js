@@ -25,6 +25,27 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
       });
     }
 
+    //이메일 양식 유효 검사
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Invalid Email',
+        text: 'Please enter a valid email address.',
+        showConfirmButton: true,
+      });
+    }
+
+    // 급여 음수 검사
+    if (isNaN(salary) || Number(salary) <= 0) {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Invalid Salary',
+        text: 'Salary must be a positive number.',
+        showConfirmButton: true,
+      });
+    }
+
     const updatedEmployee = {
       id,
       firstName,
@@ -48,7 +69,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
     setIsEditing(false);
     */
 
-    await fetch(`${MOCK_API}/${id}`,{
+    await fetch(`${MOCK_API}/${id}`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -56,7 +77,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
       body: JSON.stringify(updatedEmployee),
     });
 
-    const updatedEmployees = employees.map(employee => 
+    const updatedEmployees = employees.map(employee =>
       employee.id == id ? updatedEmployee : employee
     );
     setEmployees(updatedEmployees);

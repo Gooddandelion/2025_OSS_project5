@@ -47,9 +47,17 @@ main {
  * Correct the font size and margin on `h1` elements within `section` and
  * `article` contexts in Chrome, Firefox, and Safari.
  */
-h1 {
-  font-size: 2em;
-  margin: 0.67em 0;
+/*  그라데이션 텍스트 */
+header h1 {
+  font-size: 2.8rem; 
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 30px;
+
+  background: linear-gradient(45deg, #1a73e8, #d93025, #fbbc05, #34a853);
+  -webkit-background-clip: text; 
+  background-clip: text;
+  color: transparent;
 }
 
 /* Grouping content

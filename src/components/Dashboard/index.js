@@ -16,6 +16,8 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
+  const [sortOrder, setSortOrder] = useState('none');
+
   /*
     // 기존 코드 
       useEffect(() => {
@@ -39,6 +41,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
     setSelectedEmployee(employee);
     setIsEditing(true);
   };
+
 
   const handleDelete = id => {
     Swal.fire({
@@ -82,6 +85,26 @@ const Dashboard = ({ setIsAuthenticated }) => {
     });
   };
 
+  // sort 함수 선언
+  const handleSort = () => {
+    setSortOrder(currentOrder => {
+      if (currentOrder === 'none') return 'ascending';
+      if (currentOrder === 'ascending') return 'descending';
+      return 'none';
+    });
+  };
+
+  // 오름차순 또는 내림차순 배열 
+  const sortedEmployees = [...employees].sort((a, b) => {
+    if (sortOrder === 'ascending') {
+      return Number(a.salary) - Number(b.salary);
+    }
+    if (sortOrder === 'descending') {
+      return Number(b.salary) - Number(a.salary);
+    }
+    return 0; // 순서 변경 없음
+  });
+
   return (
     <div className="container">
       {!isAdding && !isEditing && (
@@ -91,9 +114,11 @@ const Dashboard = ({ setIsAuthenticated }) => {
             setIsAuthenticated={setIsAuthenticated}
           />
           <Table
-            employees={employees}
+            employees={sortedEmployees}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
+            handleSort={handleSort}
+            sortOrder={sortOrder}
           />
         </>
       )}

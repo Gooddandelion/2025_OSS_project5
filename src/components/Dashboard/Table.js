@@ -1,15 +1,18 @@
 import React from 'react';
 
-const Table = ({ employees, handleEdit, handleDelete }) => {
+const Table = ({ employees, handleEdit, handleDelete, handleSort, sortOrder }) => {
+  /*
   employees.forEach((employee, i) => {
     employee.id = i + 1;
   });
+  */
 
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-    minimumFractionDigits: null,
+    minimumFractionDigits: 0,
   });
+
 
   return (
     <div className="contain-table">
@@ -21,7 +24,12 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
             <th>Last Name</th>
             <th>Email</th>
             <th>Hometown</th>
-            <th>Salary</th>
+            {/* salary - 오름차순&내림차순 */}
+            <th onClick={handleSort} style={{ cursor: 'pointer' }}>
+              Salary{' '}
+              {sortOrder === 'ascending'}
+              {sortOrder === 'descending'}
+            </th>
             <th>Date</th>
             <th colSpan={2} className="text-center">
               Actions
@@ -59,7 +67,7 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
             ))
           ) : (
             <tr>
-              <td colSpan={7}>No Employees</td>
+              <td colSpan={8}>No Employees</td>
             </tr>
           )}
         </tbody>

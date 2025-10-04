@@ -23,6 +23,27 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
       });
     }
 
+    //이메일 양식 유효 검사
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Invalid Email',
+        text: 'Please enter a valid email address.',
+        showConfirmButton: true,
+      });
+    }
+
+    // 급여 음수 검사
+    if (isNaN(salary) || Number(salary) <= 0) {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Invalid Salary',
+        text: 'Salary must be a positive number.',
+        showConfirmButton: true,
+      });
+    }
+
     // const id = employees.length + 1;
 
     const newEmployee = {
