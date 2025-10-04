@@ -869,19 +869,34 @@ a.accent-button:active {
 }
 
 .muted-button,
+.muted-button_delete,
 a.muted-button {
   background: transparent;
   border: 1px solid #cdcdcd;
   color: #4e4e4e;
 }
 
+/* 
+  변경 사항 
+  hover시 글자 색 변경  
+  edit, cancel 버튼 - 파란색
+  delete 버튼 - 빨간색
+*/
 .muted-button:hover,
 .muted-button:focus,
 .muted-button:active,
 a.muted-button:hover,
 a.muted-button:focus,
 a.muted-button:active {
-  color: #4e4e4e;
+  color: #12149c;
+  border: 1px solid #818181;
+  background: transparent;
+}
+
+.muted-button_delete:hover,
+.muted-button_delete:focus,
+.muted-button_delete:active {
+  color: #c40e0e;
   border: 1px solid #818181;
   background: transparent;
 }

@@ -7,6 +7,7 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [hometown, setHometown] = useState('');
   const [salary, setSalary] = useState('');
   const [date, setDate] = useState('');
 
@@ -28,6 +29,7 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
       firstName,
       lastName,
       email,
+      hometown,
       salary,
       date,
     };
@@ -100,6 +102,14 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
           name="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+        />
+        <label htmlFor="hometown">Hometown</label>
+        <input
+          id="hometown"
+          type="text"
+          name="hometown"
+          value={hometown}
+          onChange={e => setHometown(e.target.value)}
         />
         <label htmlFor="salary">Salary ($)</label>
         <input

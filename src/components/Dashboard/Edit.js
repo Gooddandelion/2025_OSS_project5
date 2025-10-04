@@ -9,6 +9,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
   const [firstName, setFirstName] = useState(selectedEmployee.firstName);
   const [lastName, setLastName] = useState(selectedEmployee.lastName);
   const [email, setEmail] = useState(selectedEmployee.email);
+  const [hometown, setHometown] = useState(selectedEmployee.hometown);
   const [salary, setSalary] = useState(selectedEmployee.salary);
   const [date, setDate] = useState(selectedEmployee.date);
 
@@ -29,6 +30,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
       firstName,
       lastName,
       email,
+      hometown,
       salary,
       date,
     };
@@ -97,6 +99,14 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
           name="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+        />
+        <label htmlFor="hometown">Hometown</label>
+        <input
+          id="hometown"
+          type="text"
+          name="hometown"
+          value={hometown}
+          onChange={e => setHometown(e.target.value)}
         />
         <label htmlFor="salary">Salary ($)</label>
         <input
