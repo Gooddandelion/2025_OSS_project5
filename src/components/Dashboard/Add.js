@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
+const MOCK_API = "https://68db331023ebc87faa323b10.mockapi.io/employee";
+
 const Add = ({ employees, setEmployees, setIsAdding }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -8,7 +10,7 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
   const [salary, setSalary] = useState('');
   const [date, setDate] = useState('');
 
-  const handleAdd = e => {
+  const handleAdd = async (e) => {
     e.preventDefault();
 
     if (!firstName || !lastName || !email || !salary || !date) {
@@ -20,9 +22,9 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
       });
     }
 
-    const id = employees.length + 1;
+    // const id = employees.length + 1;
+
     const newEmployee = {
-      id,
       firstName,
       lastName,
       email,
@@ -30,19 +32,46 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
       date,
     };
 
-    employees.push(newEmployee);
-    localStorage.setItem('employees_data', JSON.stringify(employees));
-    setEmployees(employees);
-    setIsAdding(false);
 
-    Swal.fire({
-      icon: 'success',
-      title: 'Added!',
-      text: `${firstName} ${lastName}'s data has been Added.`,
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    // try...catch 블록으로 API 요청 로직을 감쌉니다.
+    try {
+      const response = await fetch(MOCK_API, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newEmployee),
+      });
+
+      // response.ok가 아닐 경우 (예: 서버 에러 404, 500) 에러를 발생시켜 catch 블록으로 보냅니다.
+      if (!response.ok) {
+        throw new Error('Something went wrong with the server.');
+      }
+
+      const addedEmployee = await response.json();
+      setEmployees([...employees, addedEmployee]);
+      setIsAdding(false);
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Added!',
+        text: `${firstName} ${lastName}'s data has been Added.`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+    } catch (error) {
+      // 네트워크 오류나 위에서 발생시킨 에러를 여기서 처리합니다.
+      console.error("Failed to add employee:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Could not add the employee. Please try again.',
+        showConfirmButton: true,
+      });
+    }
   };
+
 
   return (
     <div className="small-container">

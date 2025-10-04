@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
+const MOCK_API = "https://68db331023ebc87faa323b10.mockapi.io/employee";
+
 const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
   const id = selectedEmployee.id;
 
@@ -10,7 +12,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
   const [salary, setSalary] = useState(selectedEmployee.salary);
   const [date, setDate] = useState(selectedEmployee.date);
 
-  const handleUpdate = e => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
     if (!firstName || !lastName || !email || !salary || !date) {
@@ -22,7 +24,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
       });
     }
 
-    const employee = {
+    const updatedEmployee = {
       id,
       firstName,
       lastName,
@@ -31,6 +33,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
       date,
     };
 
+    /*
     for (let i = 0; i < employees.length; i++) {
       if (employees[i].id === id) {
         employees.splice(i, 1, employee);
@@ -41,11 +44,27 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
     localStorage.setItem('employees_data', JSON.stringify(employees));
     setEmployees(employees);
     setIsEditing(false);
+    */
+
+    await fetch(`${MOCK_API}/${id}`,{
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(updatedEmployee),
+    });
+
+    const updatedEmployees = employees.map(employee => 
+      employee.id == id ? updatedEmployee : employee
+    );
+    setEmployees(updatedEmployees);
+    setIsEditing(false);
+
 
     Swal.fire({
       icon: 'success',
       title: 'Updated!',
-      text: `${employee.firstName} ${employee.lastName}'s data has been updated.`,
+      text: `${updatedEmployee.firstName} ${updatedEmployee.lastName}'s data has been updated.`,
       showConfirmButton: false,
       timer: 1500,
     });
